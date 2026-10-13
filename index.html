@@ -249,17 +249,16 @@
       .contact-card { align-items: flex-start; flex-direction: column; }
     }
     @media (max-width: 650px) {
-      header { min-height: auto; align-items: flex-start; flex-direction: column; padding: 23px 0; }
-      nav { gap: 17px; }
-      .hero { grid-template-columns: 1fr; gap: 36px; padding: 62px 0 35px; }
-      h1 { font-size: clamp(2.65rem, 11vw, 3.8rem); letter-spacing: -1.8px; }
-      .intro { font-size: 1rem; }
-      .profile-wrap { max-width: 350px; justify-self: center; }
-      section { padding: 42px 0; }
-      .skills-grid, .projects-grid { grid-template-columns: 1fr; }
-      .card { padding: 23px; }
-      .contact-card { padding: 26px; }
-      footer { flex-direction: column; align-items: flex-start; }
+      .profile-wrap {
+        max-width: 260px;
+        justify-self: center;
+      }
+    
+      .profile-photo,
+      .photo-placeholder {
+        width: 110px;
+        height: 110px;
+      }
     }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
@@ -299,18 +298,23 @@
 
         <aside class="profile-wrap" aria-label="Profile">
           <div class="profile-card">
-            <!-- Add your photo at images/sanjeev-papnoi.jpg -->
             <img
               class="profile-photo"
               src="images/sanjeev-papnoi.jpg"
               alt="Sanjeev Papnoi, Software Engineer"
               onerror="this.hidden=true; this.nextElementSibling.hidden=false;"
             />
-            <div class="photo-placeholder" hidden aria-label="Profile photo placeholder">SP</div>
+          
+            <div class="photo-placeholder" hidden aria-label="Profile initials">
+              SP
+            </div>
+          
             <div class="profile-info">
               <h2>Sanjeev Papnoi</h2>
               <p>Software Engineer</p>
-              <div class="availability">Backend Development · QA · Open Source</div>
+              <div class="availability">
+                Backend Development · QA · Open Source
+              </div>
             </div>
           </div>
         </aside>
