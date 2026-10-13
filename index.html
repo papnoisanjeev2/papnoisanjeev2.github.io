@@ -310,10 +310,83 @@ footer p { margin: 0; }
   .profile-wrap { max-width: 240px; }
 }
 
+/* Entrance animations and subtle motion */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes profileFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes profileGlow {
+  0%, 100% { box-shadow: 0 28px 80px rgba(0,0,0,.28), 0 0 0 rgba(139,167,255,0); }
+  50% { box-shadow: 0 28px 80px rgba(0,0,0,.28), 0 0 28px rgba(139,167,255,.12); }
+}
+@keyframes whatsappPulse {
+  0% { box-shadow: 0 0 0 0 rgba(37,211,102,.45); }
+  70% { box-shadow: 0 0 0 13px rgba(37,211,102,0); }
+  100% { box-shadow: 0 0 0 0 rgba(37,211,102,0); }
+}
+@keyframes whatsappNudge {
+  0%, 88%, 100% { transform: rotate(0); }
+  91% { transform: rotate(-9deg); }
+  94% { transform: rotate(9deg); }
+  97% { transform: rotate(-5deg); }
+}
+.hero > div:first-child { animation: fadeUp .75s ease both; }
+.eyebrow { animation: fadeUp .65s .08s ease both; }
+.profile-wrap { animation: fadeUp .8s .18s ease both; }
+.profile-card { animation: profileFloat 5s ease-in-out 1s infinite, profileGlow 4s ease-in-out 1s infinite; }
+.profile-photo, .photo-placeholder { transition: transform .35s ease, border-color .35s ease; }
+.profile-card:hover .profile-photo,
+.profile-card:hover .photo-placeholder { transform: scale(1.04); border-color: var(--accent); }
+
+.js-motion .reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity .65s ease, transform .65s ease;
+}
+.js-motion .reveal.is-visible { opacity: 1; transform: translateY(0); }
+.card { transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease; }
+.card:hover { transform: translateY(-4px); box-shadow: 0 18px 45px rgba(0,0,0,.16); }
+
+/* Floating WhatsApp contact shortcut */
+.whatsapp-float {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  padding: 11px 17px 11px 12px;
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 999px;
+  background: #25d366;
+  color: #062b16;
+  font-weight: 800;
+  font-size: .92rem;
+  line-height: 1.2;
+  box-shadow: 0 8px 28px rgba(0,0,0,.3);
+  animation: whatsappPulse 2.4s infinite;
+  transition: transform .2s ease, background .2s ease;
+}
+.whatsapp-float:hover { transform: translateY(-3px) scale(1.02); background: #42e27b; }
+.whatsapp-float svg { width: 27px; height: 27px; flex: 0 0 27px; animation: whatsappNudge 5s infinite; }
+.whatsapp-label { display: flex; flex-direction: column; gap: 2px; }
+.whatsapp-label small { font-size: .72rem; font-weight: 600; opacity: .82; }
+@media (max-width: 480px) {
+  .whatsapp-float { right: 14px; bottom: 14px; padding: 12px; }
+  .whatsapp-label { display: none; }
+  .whatsapp-float svg { width: 29px; height: 29px; }
+}
+
 /* Accessibility */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition: none !important; animation: none !important; }
+  .js-motion .reveal { opacity: 1 !important; transform: none !important; }
 }
 </style>
 </head>
@@ -349,14 +422,17 @@ footer p { margin: 0; }
 
         <aside class="profile-wrap" aria-label="Profile">
           <div class="profile-card">
-            <!-- Add your photo at images/sanjeev-papnoi.jpg -->
+            <!-- Add your photo at images/sanjeev-papnoi.jpg.
+                 If the image is missing or fails to load, only the SP initials appear. -->
             <img
               class="profile-photo"
+              id="profilePhoto"
               src="images/sanjeev-papnoi.jpg"
-              alt="Sanjeev Papnoi, Software Engineer"
-              onerror="this.hidden=true; this.nextElementSibling.hidden=false;"
+              alt=""
+              aria-label="Sanjeev Papnoi profile photo"
+              hidden
             />
-            <div class="photo-placeholder" hidden aria-label="Profile photo placeholder">SP</div>
+            <div class="photo-placeholder" id="profileFallback" aria-label="Profile initials">SP</div>
             <div class="profile-info">
               <h2>Sanjeev Papnoi</h2>
               <p>Software Engineer</p>
@@ -594,6 +670,23 @@ footer p { margin: 0; }
       </section>
     </main>
 
+    <a
+      class="whatsapp-float"
+      href="https://wa.me/919958953102"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Chat with Sanjeev Papnoi on WhatsApp at 9958953102"
+      title="WhatsApp: 9958953102"
+    >
+      <svg viewBox="0 0 32 32" aria-hidden="true" fill="currentColor">
+        <path d="M16.04 3C8.88 3 3.06 8.78 3.06 15.9c0 2.27.6 4.49 1.73 6.45L3 29l6.84-1.78a13.1 13.1 0 0 0 6.2 1.57h.01c7.15 0 12.97-5.79 12.97-12.9 0-3.45-1.35-6.69-3.8-9.12A12.9 12.9 0 0 0 16.04 3Zm0 23.6h-.01a10.8 10.8 0 0 1-5.5-1.5l-.4-.23-4.06 1.06 1.08-3.94-.26-.41a10.7 10.7 0 0 1-1.65-5.68c0-5.94 4.86-10.77 10.81-10.77 2.88 0 5.59 1.12 7.62 3.15a10.68 10.68 0 0 1 3.17 7.61c0 5.94-4.85 10.77-10.8 10.77Zm5.93-8.06c-.32-.16-1.9-.94-2.2-1.05-.3-.11-.51-.16-.73.16-.22.32-.83 1.05-1.02 1.27-.19.22-.38.24-.7.08-.32-.16-1.35-.5-2.57-1.59-.95-.84-1.59-1.88-1.78-2.2-.19-.32-.02-.49.14-.65.14-.14.32-.38.49-.57.16-.19.22-.32.32-.54.11-.22.05-.41-.03-.57-.08-.16-.73-1.75-1-2.39-.26-.62-.53-.54-.73-.55h-.62c-.22 0-.57.08-.86.41-.3.32-1.13 1.1-1.13 2.69s1.16 3.12 1.32 3.34c.16.22 2.28 3.47 5.52 4.86.77.33 1.37.53 1.84.68.77.24 1.47.21 2.02.13.62-.09 1.9-.78 2.17-1.53.27-.76.27-1.4.19-1.53-.08-.14-.3-.22-.62-.38Z"/>
+      </svg>
+      <span class="whatsapp-label">
+        <span>Chat on WhatsApp</span>
+        <small>9958953102</small>
+      </span>
+    </a>
+
     <footer>
       <p>© <span id="year"></span> Sanjeev Papnoi. All rights reserved.</p>
       <p>Software Engineer · Open Source · SaaS Development</p>
@@ -602,6 +695,51 @@ footer p { margin: 0; }
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Show the photo only after it loads successfully; otherwise show "SP".
+    (function () {
+      const photo = document.getElementById("profilePhoto");
+      const fallback = document.getElementById("profileFallback");
+      if (!photo || !fallback) return;
+
+      function showPhotoIfValid() {
+        if (photo.naturalWidth > 0 && photo.naturalHeight > 0) {
+          photo.hidden = false;
+          fallback.hidden = true;
+        } else {
+          photo.hidden = true;
+          fallback.hidden = false;
+        }
+      }
+
+      photo.addEventListener("load", showPhotoIfValid);
+      photo.addEventListener("error", function () {
+        photo.hidden = true;
+        fallback.hidden = false;
+      });
+      if (photo.complete) showPhotoIfValid();
+    })();
+
+    // Reveal content as it enters the viewport, with a no-JS-safe fallback.
+    document.documentElement.classList.add("js-motion");
+    const revealItems = document.querySelectorAll(
+      "#about .section-head, #about .about-card, #skills .section-head, #skills .skill, #projects .section-head, #projects .project, #contact .contact-card"
+    );
+    revealItems.forEach(function (item) { item.classList.add("reveal"); });
+
+    if ("IntersectionObserver" in window) {
+      const revealObserver = new IntersectionObserver(function (entries, observer) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      revealItems.forEach(function (item) { revealObserver.observe(item); });
+    } else {
+      revealItems.forEach(function (item) { item.classList.add("is-visible"); });
+    }
   </script>
 </body>
 </html>
