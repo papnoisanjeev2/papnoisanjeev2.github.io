@@ -1,5 +1,3 @@
-# papnoisanjeev2.github.io
-Software engg
 # Portfolio website for GitHub Pages
 
 This is a responsive static portfolio built with HTML and CSS. No build tools are required.
