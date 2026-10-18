@@ -12,12 +12,12 @@ This is a responsive static portfolio built with HTML and CSS. No build tools ar
 ## Publish with GitHub Pages
 1. Sign in to https://github.com/ (create an account if needed).
 2. Click **New repository**.
-3. Name the repository exactly `YOUR-USERNAME.github.io` for the simplest URL.
-4. Choose **Public**, then create the repository.
-5. Click **Add file → Upload files** and upload `index.html` (you can also upload this README).
-6. Click **Commit changes**.
-7. Open **Settings → Pages**. If prompted, choose **Deploy from a branch**, branch `main`, folder `/ (root)`, then **Save**.
-8. Wait a minute or two and open `https://YOUR-USERNAME.github.io/`.
+4. Name the repository exactly `YOUR-USERNAME.github.io` for the simplest URL.
+5. Choose **Public**, then create the repository.
+6. Click **Add file → Upload files** and upload `index.html` (you can also upload this README).
+7. Click **Commit changes**.
+8. Open **Settings → Pages**. If prompted, choose **Deploy from a branch**, branch `main`, folder `/ (root)`, then **Save**.
+9. Wait a minute or two and open `https://YOUR-USERNAME.github.io/`.
 
 If you use a repository named `portfolio` instead, the URL will usually be `https://YOUR-USERNAME.github.io/portfolio/`.
 
